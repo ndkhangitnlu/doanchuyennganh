@@ -1,13 +1,13 @@
-package com.doanchuyennganh.backend;
+package com.example.exam_online;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DoanchuyennganhApplicationTests {
+class ExamOnlineApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
