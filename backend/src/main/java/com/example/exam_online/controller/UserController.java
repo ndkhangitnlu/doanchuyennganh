@@ -31,4 +31,27 @@ public class UserController {
                                                                                 HttpStatus.OK.value(), userDto);
         return responseHandler;
     }
+<<<<<<< Updated upstream
+=======
+
+    @PostMapping("/login")
+    public ResponseHandler<String> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        System.out.println("login");
+        // Valid username and password.
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+
+        // If don't catch exception that mean this is valid information
+        // Set infor authentication into Security Context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Return jwt for user.
+        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+        return new ResponseHandler<>("successfully logged in", HttpStatus.OK.value(), jwt);
+    }
+>>>>>>> Stashed changes
 }
