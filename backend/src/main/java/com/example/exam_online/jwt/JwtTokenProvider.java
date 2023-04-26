@@ -1,6 +1,6 @@
 package com.example.exam_online.jwt;
 
-import com.example.exam_online.entity.CustomUserDetails;
+import com.example.exam_online.dto.CustomUserDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
