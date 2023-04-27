@@ -15,4 +15,8 @@ public class Question extends EntityAudit{
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Answer> answers;
 	
+	@ManyToOne
+	@JoinColumn
+	private Questionnaire questionnaire;
+	
 }
