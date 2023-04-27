@@ -16,11 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Exam extends EntityAudit {
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-	
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "EXAM_QUESTION", joinColumns = @JoinColumn(name = "exam_id"))
 	@Column(name ="question_id")

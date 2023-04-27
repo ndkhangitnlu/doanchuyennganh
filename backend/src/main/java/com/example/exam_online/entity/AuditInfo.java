@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class AuditInfo {
-	@Column(name = "user_id")
-	private String createUserId;
+	@Column(name = "create_user_id")
+	private Integer createUserId;
 	@Column(name = "createDate")
 	private LocalDateTime createDate;
 	@Column(name = "change_user_id")
-	private String changeUserId;
+	private Integer changeUserId;
 	@Column(name = "changeDate")
 	private LocalDateTime changeDate;
 }

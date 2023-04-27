@@ -1,8 +1,13 @@
 package com.example.exam_online.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class EntityAudit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

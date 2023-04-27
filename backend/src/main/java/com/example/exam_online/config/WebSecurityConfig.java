@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll() // Allow all to access this url
+                .antMatchers("/api/auth/login", "/room/**").permitAll() // Allow all to access this url
                 .anyRequest().authenticated(); // All request except 'api/auth/login' must be authenticated
 
         // Add other classs to check jwt
