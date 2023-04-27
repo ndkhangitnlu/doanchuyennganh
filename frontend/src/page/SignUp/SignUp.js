@@ -1,5 +1,5 @@
 function SignUp() {
-  return <h1>Đăng ký</h1>;
+    return <h1>Tốt đã sữa</h1>;
 }
 
 export default SignUp;
