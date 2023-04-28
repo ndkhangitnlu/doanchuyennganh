@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long idUser;
     @Column(unique = true)
     private String email;
     @Column(unique = true)
