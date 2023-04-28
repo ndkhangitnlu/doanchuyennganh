@@ -20,5 +20,5 @@ public class Exam extends EntityAudit {
 	@CollectionTable(name = "EXAM_QUESTION", joinColumns = @JoinColumn(name = "exam_id"))
 	@Column(name ="question_id")
 	private Set<String> questions;
-	
+
 }
