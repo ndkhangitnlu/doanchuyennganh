@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto implements  IEntityResponse{
-    private int idUser;
-    private String email;
-    private boolean isActive;
-    private String role;
+public class ScoreBoard {
+    private String username;
+    private int rightAnswer;
+    private int totalQuestion;
+    private double score;
 }
