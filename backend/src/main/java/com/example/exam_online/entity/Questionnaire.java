@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "questionnaire")
+@Entity(name = "questionnaires")
 @Table
 @Getter
 @Setter

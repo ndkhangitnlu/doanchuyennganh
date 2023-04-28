@@ -7,12 +7,12 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
 @Table
-@Entity(name = "answer")
+@Entity(name = "answers")
 @Getter
 @Setter
 public class Answer extends EntityAudit {
-	@ManyToOne
-	@JoinColumn(name = "question_id")
+	@ManyToOne()
+	@JoinColumn(name = "id", insertable = false, updatable = false)
 	private Question question;
 	
 	@Column(name = "content")

@@ -25,14 +25,10 @@ public class SecurityHelper {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user;
 		//that mean user anonymous
-		if(authentication instanceof AnonymousAuthenticationToken) {
-			user  = new User();
-			user.setUsername("anonymous");
-			if(userRepository.findByUsername("anonymous") == null) {
-				userRepository.save(user);
-			}
-		} else {
+		if(!(authentication instanceof AnonymousAuthenticationToken)) {
 			user = (User) authentication.getPrincipal();
+		} else {
+			user = new User();
 		}
 		return user;
 	}

@@ -10,15 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Table
-@Entity(name ="exam")
+@Entity(name ="exams")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Exam extends EntityAudit {
-	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "EXAM_QUESTION", joinColumns = @JoinColumn(name = "exam_id"))
-	@Column(name ="question_id")
-	private Set<String> questions;
 	
+	@ManyToOne
+	@JoinColumn(name = "questionnaire", referencedColumnName = "id")
+	private Questionnaire questionnaire;
 }
