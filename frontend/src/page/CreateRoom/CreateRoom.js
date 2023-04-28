@@ -29,24 +29,85 @@ function CreateRoom() {
             inviteCode: '',
             status: '',
         },
-        
+        //Dong 32
+        validationSchema: Yup.object({
+            code: Yup.string()
+                .required('Thông tin bắt buộc')
+                .matches(/^[1-9]\d*$/, 'Mã đề phải là số')
+                .test(
+                    'checkCode',
+                    'Mã đề không tồn tại',
+                    async function validateCode(value) {
+                        try {
+                            const re = await questionService.findQuestionByCode(
+                                value,
+                            );
+
+                            if (re === null || re === undefined) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        } catch (error) {
+                            return false;
+                        }
+                    },
+                ),
+            name: Yup.string()
+                .required('Thông tin bắt buộc')
+                .test(
+                    'checkName',
+                    'Tên phòng thi đã tồn tại',
+                    async function validateName(value) {
+                        try {
+                            const re = await questionService.findQuestionByCode(
+                                value,
+                            );
+                            if (re === null || re === undefined) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } catch (error) {
+                            // return false;
+                        }
+                    },
+                ),
+            startTime: Yup.string().required('Thông tin bắt buộc'),
+            endTime: Yup.string()
+                .required('Thông tin bắt buộc')
+                .test(
+                    'is-greater',
+                    'Thời gian kết thúc phải lớn hơn',
+                    function (value) {
+                        const { startTime } = this.parent;
+                        return moment(value, 'HH:mm').isSameOrAfter(
+                            moment(startTime, 'HH:mm'),
+                        );
+                    },
+                ),
+            inviteCode: Yup.string()
+                .required('Thông tin bắt buộc')
+                .matches(/^[a-zA-Z0-9]*$/, 'Mã tham gia không hợp lệ'),
+            status: Yup.string().required('Thông tin bắt buộc'),
+        }),
         onSubmit: async (values) => {
             console.log(values);
-           
+
             setTimeout(() => {
                 navigate(`/room/id=${dataRoom.id}`);
             }, 3000);
         },
     });
-    
+    //Dong 41
     return (
         <Formik
             initialValues={formik.initialValues}
             onSubmit={formik.handleSubmit}
         >
             <Form className="mx-auto mt-10 w-full max-w-[1200px]">
-                
-             
+                {/* Dong 48    */}
+
                 <div className="-mx-3 mb-6 flex flex-wrap">
                     <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
                         <label
