@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Embeddable
@@ -22,4 +22,5 @@ public class AuditInfo {
 	private Long changeUserId;
 	@Column(name = "changeDate")
 	private LocalDateTime changeDate;
+
 }

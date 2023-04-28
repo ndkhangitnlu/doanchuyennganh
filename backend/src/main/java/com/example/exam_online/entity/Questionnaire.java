@@ -1,9 +1,7 @@
 package com.example.exam_online.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,8 +16,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Questionnaire extends EntityAudit {
-	@Column(name ="code", unique = true)
-	private String code;
-	@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Question> questions = new HashSet<>();
+	@Column(name ="code")
+	private long code;
+
+	@ManyToOne
+	@JoinColumn(name = "id_question")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonBackReference
+	private Question questions;
 }

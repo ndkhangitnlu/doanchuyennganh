@@ -26,6 +26,7 @@ public class RoomController {
 	
 	@GetMapping("/getARoom/{roomId}")
 	public ResponseHandler<Room> getRoom (@PathVariable Long roomId) {
+		System.out.println(roomId);
 		Room room = roomService.getRoomById(roomId);
 		ResponseHandler<Room> responseHandler = new ResponseHandler<Room>("successfully found room",
 				HttpStatus.OK.value(), room);

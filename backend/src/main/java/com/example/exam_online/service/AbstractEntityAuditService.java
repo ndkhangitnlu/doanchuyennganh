@@ -13,8 +13,8 @@ public abstract class AbstractEntityAuditService<T extends EntityAudit> implemen
 	@Override
 	public T createEntityAudit (T entity) {
 		User user = SecurityHelper.currentUser();
-		//entity.getAuditInfo().setCreateDate(LocalDateTime.now());
-		//entity.getAuditInfo().setCreateUserId(user.getIdUser());
+		entity.getAuditInfo().setCreateDate(LocalDateTime.now());
+		entity.getAuditInfo().setCreateUserId(user.getIdUser());
 		return getEntityRepository().save(entity);
 	};
 	

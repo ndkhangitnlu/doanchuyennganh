@@ -1,9 +1,14 @@
 package com.example.exam_online.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity(name ="questions")
@@ -11,12 +16,16 @@ import java.util.Set;
 @Getter
 @Setter
 public class Question extends EntityAudit{
-	
+
+	private String content;
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Answer> answers;
-	
-	@ManyToOne
-	@JoinColumn
-	private Questionnaire questionnaire;
-	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questions")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonManagedReference
+	@JsonIgnore
+	private Set<Questionnaire> questionnaires;
+
 }

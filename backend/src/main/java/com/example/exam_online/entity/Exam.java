@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
+import static javax.persistence.ConstraintMode.PROVIDER_DEFAULT;
+
 @Table
 @Entity(name ="exams")
 @Getter
@@ -16,8 +19,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Exam extends EntityAudit {
-	
 	@ManyToOne
-	@JoinColumn(name = "questionnaire", referencedColumnName = "id")
+	@JoinColumn(name = "questionnaire_id", referencedColumnName = "id", foreignKey=@ForeignKey(NO_CONSTRAINT))
 	private Questionnaire questionnaire;
+
 }
