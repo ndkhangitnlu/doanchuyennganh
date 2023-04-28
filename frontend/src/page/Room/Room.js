@@ -8,8 +8,9 @@ function Room() {
     
     useEffect(() => {
         const fetchApi = async () => {
-            const re = await roomService.findRoomByCode();
-            setDataRoom(re);
+            const re = await roomService.findRoomByCode(id.split('=')[1]);
+            setDataRoom(re.data);
+            console.log(re.data);
         };
         fetchApi();
     }, []);
@@ -33,16 +34,17 @@ function Room() {
                             >
                                 <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
                             </svg>
-                            Trạng thái phòng: sẵn sàng
+                            Trạng thái phòng: {dataRoom?.status
+}
                         </p>
                         <div className="mb-2 text-xl font-bold text-gray-900">
-                            Tên phòng: Thi giữa kỳ môn đồ án chuyên ngành
+                            Tên phòng: {dataRoom?.name}
                         </div>
                         <p className="text-base text-gray-700">
-                            Thời gian bắt đầu làm bài: 08h30
+                            Thời gian bắt đầu làm bài: {dataRoom?.startAt}
                         </p>
                         <p className="text-base text-gray-700">
-                            Thời gian thu bài: 09h00
+                            Thời gian thu bài: {dataRoom?.seconds}
                         </p>
                         <div className="mt-6 flex items-center">
                             <img
@@ -52,20 +54,21 @@ function Room() {
                             />
                             <div className="text-sm">
                                 <p className="mb-2 leading-none text-gray-900">
-                                    Chủ phòng: Nguyễn Văn A
+                                    Chủ phòng: {dataRoom?.auditInfo?.createUserId
+}
                                 </p>
                                 <p className="mb-2 text-gray-600">
-                                    Mã phòng: 1231203
+                                    Mã phòng: {dataRoom?.id}
                                 </p>
                                 <p className="mb-2 text-gray-600">
-                                    Mã tham gia: 979348
+                                    Mã tham gia: {dataRoom?.code}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <table className="mt-6 w-[1200px] table-auto">
+            {/* <table className="mt-6 w-[1200px] table-auto">
                 <thead>
                     <tr>
                         <th className="px-4 py-2">Mã sinh viên</th>
@@ -83,9 +86,9 @@ function Room() {
                             <td className="border px-4 py-2">{e.email}</td>
                             <td className="border px-4 py-2">{e.username}</td>
                             <td className="flex justify-center border px-4 py-2">
-                                {/* <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                                     Hoàn thành bài thi
-                                </span> */}
+                                </span>
                                 <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                                     Đang làm bài
                                 </span>
@@ -93,7 +96,7 @@ function Room() {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table> */}
             <div className="flex justify-end">
                 <button className="mx-2 mt-6 rounded border-b-4 border-blue-700 bg-blue-500 px-4 py-2 font-bold text-white hover:border-blue-500 hover:bg-blue-400">
                     Xuất bảng điểm (pdf)
