@@ -1,18 +1,25 @@
 package com.example.exam_online.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Table
-@Entity(name = "answer")
+@Entity(name = "answers")
 @Getter
 @Setter
 public class Answer extends EntityAudit {
 	@ManyToOne
-	@JoinColumn(name = "question_id")
+	@JoinColumn(name = "id_question")
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@JsonBackReference
 	private Question question;
 	
 	@Column(name = "content")
@@ -21,5 +28,4 @@ public class Answer extends EntityAudit {
 	@Column(name = "correct")
 	@Type(type = "org.hibernate.type.YesNoType")
 	private boolean correct;
-	
 }
