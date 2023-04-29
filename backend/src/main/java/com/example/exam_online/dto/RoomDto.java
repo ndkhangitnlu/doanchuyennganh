@@ -20,6 +20,8 @@ public class RoomDto {
 	private String roomName;
 	private LocalDateTime startAt;
 	private int time;
+
+	private Room.RoomStatus status;
 	private UserDto createdUser;
 	private UserDto changedUser;
 	
