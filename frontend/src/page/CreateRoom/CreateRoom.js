@@ -1,24 +1,26 @@
 import { Form, Formik, useFormik } from 'formik';
 import moment from 'moment/moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import * as questionService from '~/services/questionService';
-
+import * as roomService from '~/services/roomService';
 function CreateRoom() {
     const [dataRoom, setDataRoom] = useState();
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchApi = async () => {
-            const re = await questionService.findQuestionByCode(1);
-            console.log(re);
-            setDataRoom(re);
-        };
-        fetchApi();
-    }, []);
+    const buttonRef = useRef();
+
+    // useEffect(() => {
+    //     const fetchApi = async () => {
+    //         const re = await questionService.findQuestion();
+    //         console.log(re);
+    //         setDataRoom(re);
+    //     };
+    //     fetchApi();
+    // }, []);
 
     const formik = useFormik({
         initialValues: {
@@ -26,87 +28,123 @@ function CreateRoom() {
             name: '',
             startTime: '',
             endTime: '',
-            inviteCode: '',
             status: '',
         },
         //Dong 32
         validationSchema: Yup.object({
-            code: Yup.string()
-                .required('Thông tin bắt buộc')
-                .matches(/^[1-9]\d*$/, 'Mã đề phải là số')
-                .test(
-                    'checkCode',
-                    'Mã đề không tồn tại',
-                    async function validateCode(value) {
-                        try {
-                            const re = await questionService.findQuestionByCode(
-                                value,
-                            );
-
-                            if (re === null || re === undefined) {
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        } catch (error) {
-                            return false;
-                        }
-                    },
-                ),
-            name: Yup.string()
-                .required('Thông tin bắt buộc')
-                .test(
-                    'checkName',
-                    'Tên phòng thi đã tồn tại',
-                    async function validateName(value) {
-                        try {
-                            const re = await questionService.findQuestionByCode(
-                                value,
-                            );
-                            if (re === null || re === undefined) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        } catch (error) {
-                            // return false;
-                        }
-                    },
-                ),
+            name: Yup.string().required('Thông tin bắt buộc'),
             startTime: Yup.string().required('Thông tin bắt buộc'),
             endTime: Yup.string()
                 .required('Thông tin bắt buộc')
-                .test(
-                    'is-greater',
-                    'Thời gian kết thúc phải lớn hơn',
-                    function (value) {
-                        const { startTime } = this.parent;
-                        return moment(value, 'HH:mm').isSameOrAfter(
-                            moment(startTime, 'HH:mm'),
-                        );
-                    },
-                ),
-            inviteCode: Yup.string()
-                .required('Thông tin bắt buộc')
-                .matches(/^[a-zA-Z0-9]*$/, 'Mã tham gia không hợp lệ'),
+                .matches(/^[1-9]\d*$/, 'Thời gian kết thúc phải là số'),
             status: Yup.string().required('Thông tin bắt buộc'),
+            code: Yup.string()
+                .required('Thông tin bắt buộc')
+                .matches(/^[1-9]\d*$/, 'Mã đề phải là số')
+                // .test(
+                //     'checkCode',
+                //     'Mã đề không tồn tại',
+                //     async function validateCode(value) {
+                //         const re = await questionService.findQuestionByCode(
+                //             value,
+                //         );
+                //         if (re === undefined) {
+                //             return false;
+                //         }
+                //         return true;
+                //     },
+                // ),
         }),
         onSubmit: async (values) => {
-            console.log(values);
+            handleDate(new Date(values.startTime));
+            await roomService
+                .saveRoom(
+                    values.name,
+                    handleDate(new Date(values.startTime)),
+                    values.endTime,
+                    values.status,
+                )
+                .then((response) => {
+                    if (response !== null) {
+                        notifySuccess('Tạo phòng thành công');
+                        buttonRef.current.setAttribute('disabled', true);
+                        console.log(response);
+                        // setTimeout(() => {
+                        //     navigate(`/room/id=${response.data.id}`);
+                        // }, 3000);
+                    } else {
+                        notifyWarning('Tạo phòng thất bại');
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
 
-            setTimeout(() => {
-                navigate(`/room/id=${dataRoom.id}`);
-            }, 3000);
+       
         },
     });
+    const handleDate = (dt) => {
+        const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+        console.log(
+            `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(
+                dt.getDate(),
+            )} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(
+                dt.getSeconds(),
+            )}`,
+        );
+        return `${dt.getFullYear()}-${padL(dt.getMonth() + 1)}-${padL(
+            dt.getDate(),
+        )} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(
+            dt.getSeconds(),
+        )}`;
+    };
+    const notifySuccess = (msg) => {
+        toast.success(msg, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+        });
+    };
+    const notifyWarning = (msg) => {
+        toast.warning(msg, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+        });
+    };
+
     //Dong 41
     return (
         <Formik
             initialValues={formik.initialValues}
             onSubmit={formik.handleSubmit}
+            validateOnChange={false}
+            validateOnBlur={false}
         >
             <Form className="mx-auto mt-10 w-full max-w-[1200px]">
                 {/* Dong 48    */}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
 
                 <div className="-mx-3 mb-6 flex flex-wrap">
                     <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
@@ -167,7 +205,7 @@ function CreateRoom() {
                     <div className="w-full px-3 md:w-1/2">
                         <label
                             className="mb-2 block text-left text-xs font-bold uppercase tracking-wide text-gray-700"
-                            htmlFor="grid-last-name"
+                            htmlFor="name"
                         >
                             Tên phòng thi
                         </label>
@@ -192,35 +230,6 @@ function CreateRoom() {
                             </p>
                         ) : null}
                     </div>
-                    <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
-                        <label
-                            className="mb-2 block text-left text-xs font-bold uppercase tracking-wide text-gray-700 "
-                            htmlFor="grid-first-name"
-                        >
-                            Mã tham gia
-                        </label>
-                        <input
-                            className={
-                                formik.touched.inviteCode &&
-                                formik.errors.inviteCode
-                                    ? 'focus:shadow-input transition-basic h-12 w-full  rounded-lg  border border-[#ff4742] bg-[#eaf0f7] px-4 py-1 outline-none focus:border-[#ff4742]'
-                                    : 'block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white  focus:outline-none'
-                            }
-                            id="inviteCode"
-                            name="inviteCode"
-                            type="text"
-                            placeholder="KOLA20235a"
-                            onChange={formik.handleChange}
-                            value={formik.values.inviteCode}
-                            onBlur={formik.handleBlur}
-                        />
-                        {formik.touched.inviteCode &&
-                        formik.errors.inviteCode ? (
-                            <p className="text-left text-xs italic text-red-500">
-                                {formik.errors.inviteCode}
-                            </p>
-                        ) : null}
-                    </div>
                 </div>
 
                 <div className="-mx-3 mb-2 flex flex-wrap">
@@ -240,7 +249,7 @@ function CreateRoom() {
                             }
                             id="startTime"
                             name="startTime"
-                            type="time"
+                            type="datetime-local"
                             onChange={formik.handleChange}
                             value={formik.values.startTime}
                             onBlur={formik.handleBlur}
@@ -267,11 +276,10 @@ function CreateRoom() {
                                     : 'block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none'
                             }
                             name="endTime"
-                            type="time"
+                            type="text"
                             onChange={formik.handleChange}
                             value={formik.values.endTime}
                             onBlur={formik.handleBlur}
-                            placeholder={90210}
                         />
                         {formik.touched.endTime && formik.errors.endTime ? (
                             <p className="text-left text-xs italic text-red-500">
@@ -301,8 +309,8 @@ function CreateRoom() {
                                 value={formik.values.status}
                             >
                                 <option value="">--Chọn trạng thái--</option>
-                                <option value="valid">Sẵn sàng</option>
-                                <option value="invalid">Chưa sẵn sàng </option>
+                                <option value="OPEN">Mở</option>
+                                <option value="CLOSE">Đóng</option>
                             </select>
                             {formik.touched.status && formik.errors.status ? (
                                 <p className="text-left text-xs italic text-red-500">
@@ -322,6 +330,7 @@ function CreateRoom() {
                     </div>
                     <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
                         <button
+                            ref={buttonRef}
                             type="submit"
                             className="mb-3 mt-6 block rounded border-b-4 border-blue-700 bg-blue-500 px-4 py-2 font-bold text-white hover:border-blue-500 hover:bg-blue-400"
                         >

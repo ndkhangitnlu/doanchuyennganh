@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/room")
+@CrossOrigin
 public class RoomController {
 	@Autowired
 	private IRoomService<Room> roomService;
@@ -37,6 +38,7 @@ public class RoomController {
 		room.setName(roomRequest.getRoomName());
 		room.setSeconds(roomRequest.getTime());
 		room.setStartAt(roomRequest.getStartAt());
+		room.setStatus(roomRequest.getStatus());
 		Room result = roomService.createEntityAudit(room);
 		ResponseHandler<RoomDto> responseHandler = new ResponseHandler<RoomDto>("successfully add a room",
 				HttpStatus.OK.value(), new RoomDto(result, userService, mapper));

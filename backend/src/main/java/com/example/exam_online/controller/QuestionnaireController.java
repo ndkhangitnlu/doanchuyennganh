@@ -11,15 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/questionnaire")
+@CrossOrigin
 public class QuestionnaireController {
     @Autowired
     private QuestionnaireService questionnaireService;
@@ -31,10 +29,11 @@ public class QuestionnaireController {
                     content = @Content(schema = @Schema(implementation = ResponseHandler.class)))
     })
     @GetMapping("/getQuestionnaireByCode/{code}")
-    public ResponseHandler<List<Question>> getQuestionsByCode(@PathVariable int code) throws CustomException {
+    public ResponseHandler<List<Question>> getQuestionsByCode(@PathVariable long code) throws CustomException {
         List<Question> result = questionnaireService.getQuestionsFromCode(code);
         ResponseHandler<List<Question>> responseHandler = new ResponseHandler<List<Question>>("successfully get questions from code",
                                                                                               HttpStatus.OK.value(), result);
         return responseHandler;
     }
+
 }
