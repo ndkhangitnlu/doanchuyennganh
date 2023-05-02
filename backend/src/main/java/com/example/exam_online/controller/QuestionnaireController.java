@@ -36,4 +36,17 @@ public class QuestionnaireController {
         return responseHandler;
     }
 
+    @Operation(description = "get questions from code and id exam")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "successfully get questions from user id and code"),
+            @ApiResponse(responseCode = "404", description = "not found questions from user id and code",
+                    content = @Content(schema = @Schema(implementation = ResponseHandler.class)))
+    })
+    @GetMapping("/getQuestionsByUserIdAndCode/{userId}/{code}")
+    public ResponseHandler<List<Question>> getQuestionsByUserIdAndCode(@PathVariable int userId, @PathVariable int code) throws CustomException {
+        List<Question> result = questionnaireService.getQuestionsByUserIdAndCode(userId, code);
+        ResponseHandler<List<Question>> responseHandler = new ResponseHandler<List<Question>>("successfully get questions from user id and code",
+                                                                                              HttpStatus.OK.value(), result);
+        return responseHandler;
+    }
 }
