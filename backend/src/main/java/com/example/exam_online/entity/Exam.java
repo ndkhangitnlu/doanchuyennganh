@@ -23,4 +23,14 @@ public class Exam extends EntityAudit {
 	@JoinColumn(name = "questionnaire_id", referencedColumnName = "id", foreignKey=@ForeignKey(NO_CONSTRAINT))
 	private Questionnaire questionnaire;
 
+	@Column(name = "title")
+	private String title;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }

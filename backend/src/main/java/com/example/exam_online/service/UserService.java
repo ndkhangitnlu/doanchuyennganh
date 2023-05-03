@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +41,9 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new CustomUserDetails(user);
+    }
+
+    public List<User> findUserByIds(List<Integer> userIds) {
+        return userRepository.findAllById(userIds);
     }
 }

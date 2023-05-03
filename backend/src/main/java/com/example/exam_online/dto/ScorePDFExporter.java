@@ -26,26 +26,26 @@ public class ScorePDFExporter {
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.WHITE);
 
+        cell.setPhrase(new Phrase("User ID", font));
+
+        table.addCell(cell);
+
         cell.setPhrase(new Phrase("Username", font));
-
-        table.addCell(cell);
-
-        cell.setPhrase(new Phrase("Right Answer", font));
-        table.addCell(cell);
-
-        cell.setPhrase(new Phrase("Total Question", font));
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("Score", font));
+        table.addCell(cell);
+
+        cell.setPhrase(new Phrase("Exam", font));
         table.addCell(cell);
     }
 
     private void writeTableData(PdfPTable table) {
         for (ScoreBoard scoreBoard : scoreBoardList) {
+            table.addCell(String.valueOf(scoreBoard.getIdUser()));
             table.addCell(scoreBoard.getUsername());
-            table.addCell(String.valueOf(scoreBoard.getRightAnswer()));
-            table.addCell(String.valueOf(scoreBoard.getTotalQuestion()));
             table.addCell(String.valueOf(scoreBoard.getScore()));
+            table.addCell(scoreBoard.getExam());
         }
     }
 
