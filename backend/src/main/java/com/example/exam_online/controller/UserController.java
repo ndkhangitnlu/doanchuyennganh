@@ -61,4 +61,5 @@ public class UserController {
         String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
         return new ResponseHandler<>("successfully logged in", HttpStatus.OK.value(), jwt);
     }
+
 }

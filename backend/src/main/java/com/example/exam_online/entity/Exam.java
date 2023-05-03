@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Table
-@Entity(name ="exam")
+@Entity(name ="exams")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,4 +21,14 @@ public class Exam extends EntityAudit {
 	@Column(name ="question_id")
 	private Set<String> questions;
 
+	@Column(name = "title")
+	private String title;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }
