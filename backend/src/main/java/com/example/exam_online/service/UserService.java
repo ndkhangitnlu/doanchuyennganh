@@ -113,4 +113,12 @@ public class UserService implements UserDetailsService {
         }
         return ResponseEntity.badRequest().body("Error: Couldn't verify email");
     }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

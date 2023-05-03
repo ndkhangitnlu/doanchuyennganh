@@ -70,6 +70,13 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseHandler<UserDto> registerUser(@RequestBody RegisterRequest registerRequest) throws CustomException, MessagingException, UnsupportedEncodingException {
+        if (userService.existsByUsername(registerRequest.getUsername())) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, "username is already taken");
+        }
+        if (userService.existsByEmail(registerRequest.getEmail())) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, "email is already taken");
+        }
+
         User user = mapper.map(registerRequest, User.class);
         UserDto userDto1 =  mapper.map(user, UserDto.class);
         userService.register(user);
