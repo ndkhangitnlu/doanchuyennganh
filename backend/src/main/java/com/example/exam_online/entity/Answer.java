@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Answer extends EntityAudit {
+
 	@ManyToOne
 	@JoinColumn(name = "id_question")
 	@EqualsAndHashCode.Exclude

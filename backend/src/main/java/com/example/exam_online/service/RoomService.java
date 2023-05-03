@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 public class RoomService extends AbstractEntityAuditService<Room> implements IRoomService<Room>{
 	@Autowired
 	RoomRepository roomRepository;
-	
+
 	@Override
 	public Room getRoomById (Long roomId) {
-		return roomRepository.findById(roomId).orElse(null);
+		System.out.println(roomId);
+		System.out.println(roomRepository.findById(roomId));
+		return roomRepository.findById(roomId).get();
 	}
-	
+
+
 	protected JpaRepository<Room, Long> getEntityRepository () {
 		return roomRepository;
 	}

@@ -9,3 +9,10 @@
     @apply font-roboto;
   }
 }
+
+
+@layer components {
+  .padding-responsive {
+    @apply 2xl:px-1 xl:px-1 lg:px-2 md:px-2 sm:px-4 xs:px-4 cs:px-4;
+  }
+}

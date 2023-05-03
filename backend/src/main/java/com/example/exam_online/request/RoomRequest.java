@@ -1,5 +1,6 @@
 package com.example.exam_online.request;
 
+import com.example.exam_online.entity.Room;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,7 @@ public class RoomRequest {
 	
 	@JsonProperty("time")
 	private int time;
-	
+
+	@JsonProperty("status")
+	private Room.RoomStatus status;
 }

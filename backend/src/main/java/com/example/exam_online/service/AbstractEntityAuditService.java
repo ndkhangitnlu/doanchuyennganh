@@ -13,7 +13,7 @@ public abstract class AbstractEntityAuditService<T extends EntityAudit> implemen
 	@Override
 	public T createEntityAudit (T entity) {
 		User user = SecurityHelper.currentUser();
-		entity.getAuditInfo().setCreateDate(LocalDateTime.now().toString());
+		entity.getAuditInfo().setCreateDate(LocalDateTime.now());
 		entity.getAuditInfo().setCreateUserId(user.getIdUser());
 		return getEntityRepository().save(entity);
 	};
@@ -21,7 +21,7 @@ public abstract class AbstractEntityAuditService<T extends EntityAudit> implemen
 	@Override
 	public T updateEntityAudit (T entity) {
 		User user = SecurityHelper.currentUser();
-		entity.getAuditInfo().setChangeDate(LocalDateTime.now().toString());
+		entity.getAuditInfo().setChangeDate(LocalDateTime.now());
 		entity.getAuditInfo().setChangeUserId(user.getIdUser());
 		return getEntityRepository().save(entity);
 	}

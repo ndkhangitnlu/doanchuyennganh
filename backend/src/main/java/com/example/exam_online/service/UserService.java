@@ -29,17 +29,19 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
     private JavaMailSender mailSender;
 
-    public User findById(int id) throws CustomException {
+    public User findById(Long id) throws CustomException {
+
         Optional<User> user = userRepository.findById(id);
         return user.map(u -> u
         ).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "not found user by id"));
     }
     @Transactional
     public UserDetails loadUserById(Long userId) {
-        User user = userRepository.findById(Math.toIntExact(userId)).orElseThrow(
+        User user = userRepository.findById(userId).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with id : " + userId)
         );
 

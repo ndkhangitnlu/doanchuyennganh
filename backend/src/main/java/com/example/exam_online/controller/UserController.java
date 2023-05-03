@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -40,7 +41,7 @@ public class UserController {
     private JwtTokenProvider tokenProvider;
 
     @GetMapping("/findUser/{userId}")
-    public ResponseHandler<UserDto> findUserById(@PathVariable int userId) throws CustomException {
+    public ResponseHandler<UserDto> findUserById(@PathVariable Long userId) throws CustomException {
         User user = userService.findById(userId);
         UserDto userDto = mapper.map(user, UserDto.class);
         ResponseHandler<UserDto> responseHandler = new ResponseHandler<UserDto>("successfully found user",
