@@ -9,17 +9,19 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.ConstraintMode.NO_CONSTRAINT;
+import static javax.persistence.ConstraintMode.PROVIDER_DEFAULT;
+
 @Table
 @Entity(name ="exams")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Exam extends EntityAudit {
-	@ElementCollection(fetch = FetchType.LAZY)
-	@CollectionTable(name = "EXAM_QUESTION", joinColumns = @JoinColumn(name = "exam_id"))
-	@Column(name ="question_id")
-	private Set<String> questions;
+	@ManyToOne
+	@JoinColumn(name = "questionnaire_id", referencedColumnName = "id", foreignKey=@ForeignKey(NO_CONSTRAINT))
+	private Questionnaire questionnaire;
 
 	@Column(name = "title")
 	private String title;

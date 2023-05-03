@@ -34,4 +34,14 @@ public class QuestionnaireService extends AbstractEntityAuditService<Questionnai
         list.forEach(qn -> result.add(qn.getQuestions()));
         return result;
     }
+
+    public List<Question> getQuestionsByUserIdAndCode(int userId, int code) throws CustomException {
+        List<Questionnaire> list = questionnaireRepository.findByCreateUserIdAndCode(userId, code);
+        if (list.size() == 0) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "not found questions by this user id and code");
+        }
+        List<Question> result = new ArrayList<Question>();
+        list.forEach(qn -> result.add(qn.getQuestions()));
+        return result;
+    }
 }

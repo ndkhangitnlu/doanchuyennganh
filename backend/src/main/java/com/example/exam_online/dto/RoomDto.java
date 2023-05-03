@@ -20,13 +20,15 @@ public class RoomDto {
 	private String roomName;
 	private LocalDateTime startAt;
 	private int time;
+
+	private Room.RoomStatus status;
 	private UserDto createdUser;
 	private UserDto changedUser;
 	
 	
 	public RoomDto (Room room, UserService userService, ModelMapper mapper) throws CustomException {
-		Integer createUserId = room.getAuditInfo().getCreateUserId();
-		Integer changeUserId = room.getAuditInfo().getChangeUserId();
+		Long createUserId = room.getAuditInfo().getCreateUserId();
+		Long changeUserId = room.getAuditInfo().getChangeUserId();
 		if(createUserId != null) {
 			this.createdUser = mapper.map(userService.findById(createUserId), UserDto.class);
 		}

@@ -1,8 +1,8 @@
-import './App.css';
 import { Fragment } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
 import { publicRoutes } from './routes';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
     return (
