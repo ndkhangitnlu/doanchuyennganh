@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public List<User> findUserByIds(List<Integer> userIds) {
+    public List<User> findUserByIds(List<Long> userIds) {
         return userRepository.findAllById(userIds);
     }
 
