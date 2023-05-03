@@ -6,16 +6,22 @@ import com.example.exam_online.entity.User;
 import com.example.exam_online.exception.CustomException;
 import com.example.exam_online.jwt.JwtTokenProvider;
 import com.example.exam_online.request.LoginRequest;
+import com.example.exam_online.request.RegisterRequest;
 import com.example.exam_online.response.ResponseHandler;
 import com.example.exam_online.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -63,4 +69,18 @@ public class UserController {
         return new ResponseHandler<>("successfully logged in", HttpStatus.OK.value(), jwt);
     }
 
+    @PostMapping("/register")
+    public ResponseHandler<UserDto> registerUser(@RequestBody RegisterRequest registerRequest) throws CustomException, MessagingException, UnsupportedEncodingException {
+        User user = mapper.map(registerRequest, User.class);
+        UserDto userDto1 =  mapper.map(user, UserDto.class);
+        userService.register(user);
+        ResponseHandler<UserDto> responseHandler = new ResponseHandler<UserDto>("successfully registered",
+                                                                                HttpStatus.OK.value(), userDto1);
+        return responseHandler;
+    }
+    @GetMapping(value="/verify")
+    public ResponseEntity<?> confirmUserAccount(@RequestParam("code")String confirmationCode, @RequestParam("email") String email) {
+        userService.confirmEmail(confirmationCode, email);
+        return ResponseEntity.ok().body("User verified successfully!");
+    }
 }
