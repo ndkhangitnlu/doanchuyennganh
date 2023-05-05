@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 
 public class RegisterRequest {
-    @JsonProperty("username")
     @NotNull(message = "username is required")
+    @JsonProperty("username")
     private String username;
-    @JsonProperty("email")
     @NotNull(message = "email is required")
+    @JsonProperty("email")
     private String email;
-    @JsonProperty("password")
     @NotNull(message = "password is required")
+    @JsonProperty("password")
     private String password;
 
     public String getUsername() {
